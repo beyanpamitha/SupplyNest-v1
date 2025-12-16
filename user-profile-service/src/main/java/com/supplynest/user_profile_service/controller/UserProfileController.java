@@ -42,8 +42,8 @@ public class UserProfileController {
             @PathVariable Long id,
             @RequestBody PasswordUpdateDto passwordUpdateDto
             ){
-        userProfileService.updatePassword(id, passwordUpdateDto);
-        return "Password changed successfully";
+        String message = userProfileService.updatePassword(id, passwordUpdateDto);
+        return message;
     }
 
     @DeleteMapping("{id}")

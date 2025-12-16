@@ -11,7 +11,7 @@ public interface UserProfileService {
 
     UserUpdateDto updateUser(Long id, UserUpdateDto userUpdateDto);
 
-    void updatePassword(Long id, PasswordUpdateDto passwordUpdateDto);
+    String updatePassword(Long id, PasswordUpdateDto passwordUpdateDto);
 
     UserProfileDto deleteUser(Long id);
 }
