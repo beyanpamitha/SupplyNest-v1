@@ -9,6 +9,9 @@ import com.supplynest.user_profile_service.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +33,15 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     public UserProfileDto getUserById(Long id) {
-        return null;
+        User user = userProfileRepo.findById(id)
+                .orElseThrow(()->
+                        new ResponseStatusException(
+                                NOT_FOUND,
+                                "User not found with id" + id
+                        )
+                );
+        UserProfileDto receivedUser = modelMapper.map(user,UserProfileDto.class);
+        return receivedUser;
     }
 
     @Override
