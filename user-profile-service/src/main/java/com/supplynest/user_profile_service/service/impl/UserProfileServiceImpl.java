@@ -33,7 +33,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     public UserProfileDto getUserById(Long id) {
-        User user = userProfileRepo.findById(id)
+        User user = userProfileRepo.findById(id)   //Checking the db to find relevant user and throwing not found error if a user does not exist.
                 .orElseThrow(()->
                         new ResponseStatusException(
                                 NOT_FOUND,
@@ -46,7 +46,33 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     public UserUpdateDto updateUser(Long id, UserUpdateDto userUpdateDto) {
-        return null;
+        //Checking if there is a user in the db
+        User user = userProfileRepo.findById(id)
+                .orElseThrow(()->
+                        new ResponseStatusException(
+                                NOT_FOUND,
+                                "User not found with id" + id
+                        )
+                );
+
+        //Updating user
+        if (userUpdateDto.getUsername() != null) {
+            user.setUsername(userUpdateDto.getUsername());
+        }
+        if (userUpdateDto.getEmail() != null) {
+            user.setEmail(userUpdateDto.getEmail());
+        }
+        if (userUpdateDto.getRole() != null) {
+            user.setRole(userUpdateDto.getRole());
+        }
+        if (userUpdateDto.getStatus() != null) {
+            user.setStatus(userUpdateDto.getStatus());
+        }
+
+        //Saving updated user
+        User updatedUser = userProfileRepo.save(user);
+
+        return modelMapper.map(updatedUser,UserUpdateDto.class);
     }
 
     @Override
