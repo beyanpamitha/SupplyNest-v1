@@ -77,11 +77,34 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     public String updatePassword(Long id, PasswordUpdateDto passwordUpdateDto) {
-        return null;
+        User user = userProfileRepo.findById(id)
+                .orElseThrow(()->
+                        new ResponseStatusException(
+                                NOT_FOUND,
+                                "User not found with id" + id
+                        )
+                );
+        if (passwordUpdateDto.getPassword() != null){
+            user.setPassword(passwordUpdateDto.getPassword());
+        }
+
+        User updatedUser = userProfileRepo.save(user);
+
+        return "Your password is changed successfully";
     }
 
     @Override
     public UserProfileDto deleteUser(Long id) {
-        return null;
+        User user = userProfileRepo.findById(id)
+                .orElseThrow(()->
+                        new ResponseStatusException(
+                                NOT_FOUND,
+                                "User not found with id" + id
+                        )
+                );
+
+        userProfileRepo.delete(user); //Deleting the user
+
+        return modelMapper.map(user,UserProfileDto.class);
     }
 }
