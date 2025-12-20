@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
@@ -37,7 +36,7 @@ public class UserProfileServiceImpl implements UserProfileService {
                 .orElseThrow(()->
                         new ResponseStatusException(
                                 NOT_FOUND,
-                                "User not found with id" + id
+                                "User not found with id " + id
                         )
                 );
         UserProfileDto receivedUser = modelMapper.map(user,UserProfileDto.class);
@@ -51,7 +50,7 @@ public class UserProfileServiceImpl implements UserProfileService {
                 .orElseThrow(()->
                         new ResponseStatusException(
                                 NOT_FOUND,
-                                "User not found with id" + id
+                                "User not found with id " + id
                         )
                 );
 
@@ -81,7 +80,7 @@ public class UserProfileServiceImpl implements UserProfileService {
                 .orElseThrow(()->
                         new ResponseStatusException(
                                 NOT_FOUND,
-                                "User not found with id" + id
+                                "User not found with id " + id
                         )
                 );
         if (passwordUpdateDto.getPassword() != null){
@@ -99,7 +98,7 @@ public class UserProfileServiceImpl implements UserProfileService {
                 .orElseThrow(()->
                         new ResponseStatusException(
                                 NOT_FOUND,
-                                "User not found with id" + id
+                                "User not found with id " + id
                         )
                 );
 

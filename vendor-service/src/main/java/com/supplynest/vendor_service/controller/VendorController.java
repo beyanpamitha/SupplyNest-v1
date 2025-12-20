@@ -1,5 +1,6 @@
 package com.supplynest.vendor_service.controller;
 
+import com.supplynest.vendor_service.dto.ActiveStatusUpdateDto;
 import com.supplynest.vendor_service.dto.VendorProfileDto;
 import com.supplynest.vendor_service.service.VendorService;
 import lombok.RequiredArgsConstructor;
@@ -37,8 +38,11 @@ public class VendorController {
 
     //Vendor approval management
     @PutMapping("{id}")
-    public ResponseEntity<VendorProfileDto> vendorApproval (@PathVariable Long id){
-        VendorProfileDto approvedVendor = vendorService.approveVendor(id);
+    public ResponseEntity<VendorProfileDto> vendorApproval (
+            @PathVariable Long id,
+            @RequestBody ActiveStatusUpdateDto activeStatusUpdateDto
+    ){
+        VendorProfileDto approvedVendor = vendorService.approveVendor(id, activeStatusUpdateDto);
         return new ResponseEntity<>(approvedVendor, HttpStatus.OK);
     }
 }
