@@ -1,4 +1,4 @@
-package com.supplynest.user_profile_service.dto;
+package com.supplynest.cart_service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,13 +8,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class UserProfileDto {
+public class CartItemsDto {
 
     private Long id;
-    private String username;
-    private String password;
-    private String email;
-    private String role;
-    private String status;
+    private Long cartId;
+    private Long productId;
+    private Double quantity;
+    private Double unitPrice;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
