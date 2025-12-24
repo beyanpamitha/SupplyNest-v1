@@ -9,6 +9,7 @@ import com.supplynest.cart_service.repository.CartRepo;
 import com.supplynest.cart_service.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -52,5 +53,18 @@ public class CartServiceImpl implements CartService {
         Carts newCart = modelMapper.map(cartsDto, Carts.class);
         Carts savedCart = cartRepo.save(newCart);
         return modelMapper.map(savedCart, CartsDto.class);
+    }
+
+    @Override
+    public List<CartItemsDto> addItemToCart(Long productId, Double quantity) {
+
+        //Checking the quantity is zero
+        if (quantity == null || quantity <= 0){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Quantity must be greater than zero."
+            );
+        }
+        return List.of();
     }
 }

@@ -29,4 +29,15 @@ public class CartController {
                 cartService.getCartDetails(customerId)
         );
     }
+
+    @PostMapping("/{productId}")
+    public ResponseEntity<List<CartItemsDto>> addItemToCart(
+            @PathVariable Long productId,
+            @RequestBody Double quantity
+    ){
+        return ResponseEntity.ok(
+                cartService.addItemToCart(productId,quantity)
+        );
+        //Service method is completed. Complete it
+    }
 }

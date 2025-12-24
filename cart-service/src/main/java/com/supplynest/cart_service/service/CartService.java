@@ -9,4 +9,6 @@ public interface CartService {
     List<CartItemsDto> getCartDetails(Long customerId);
 
     CartsDto openNewCart(CartsDto cartsDto);
+
+    List<CartItemsDto> addItemToCart(Long productId, Double quantity);
 }
