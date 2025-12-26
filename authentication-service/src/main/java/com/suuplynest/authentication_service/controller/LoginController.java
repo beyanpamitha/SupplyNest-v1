@@ -16,6 +16,6 @@ public class LoginController {
 
     @PostMapping("/login")
     public LoginResponseDto createJwtTokenAndLogin(@RequestBody LoginRequestDto loginRequestDto) throws Exception{
-return jwtService.cwcs
+        return jwtService.createJwtToken(loginRequestDto);
     }
 }
