@@ -22,6 +22,9 @@ public class AuthServiceImpl implements AuthService {
 
         Users user = modelMapper.map(usersDto,Users.class);  //Converting user's data(Dto type) into Entity type, for save in the db.
 
+        // Encode Password Before Saving
+        user.setPassword(passwordEncoder.encode(usersDto.getPassword()));
+
         Users saveUser = userRepo.save(user);
 
         UsersDto savedUser = modelMapper.map(saveUser,UsersDto.class);  //Converting Entity type data into Dto type, for return to frontend.

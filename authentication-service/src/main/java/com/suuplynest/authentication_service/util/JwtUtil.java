@@ -3,9 +3,10 @@ package com.suuplynest.authentication_service.util;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
+import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,8 +14,12 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtil {
-    public static final String SECRET_KEY = "123456789";
-    public static final int TOKEN_VALIDITY = 3600 * 5;
+    private static final String SECRET =
+            "u8Zy4R1L3eJ9r6Vx2hQm5TzW8dP7aS3bF0vY6nC1kL9qH4jR2sM7wX8pQ0tZ3yVx"; //Should use at least 512bit key with HS512
+    private static final Key KEY =
+            Keys.hmacShaKeyFor(SECRET.getBytes());
+
+    private static final long TOKEN_VALIDITY = 1000 * 60 * 60 * 5; // 5 hours
 
     public String getUsernameFromToken(String token){
         return getClaimFromToken(token, Claims::getSubject);
@@ -26,7 +31,12 @@ public class JwtUtil {
     }
 
     private Claims getAllClaimsFromToken(String token){
-        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+        return Jwts
+                .parserBuilder()
+                .setSigningKey(KEY)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     //Validating the token by username matching and token expiration
@@ -59,6 +69,6 @@ public class JwtUtil {
                 .setSubject(userDetails.getUsername()) //Getting username from frontend(user details)
                 .setIssuedAt(new Date(System.currentTimeMillis())) //Setting the issued time to current system time
                 .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY * 1000)) //Setting the expiration time to token validity time * 1000 seconds.
-                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
+                .signWith(KEY, SignatureAlgorithm.HS512)
                 .compact();}
 }

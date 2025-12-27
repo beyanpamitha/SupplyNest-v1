@@ -30,7 +30,7 @@ public class WebSecurityConfig {
         httpSecurity
                 .cors().and().csrf().disable()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login","/api/v1/auth/register-new-user").permitAll()
+                        .requestMatchers("/api/v1/login","/api/v1/auth/register-new-user").permitAll()
                         .requestMatchers(HttpHeaders.ALLOW).permitAll()
                         .anyRequest().authenticated()
                 )

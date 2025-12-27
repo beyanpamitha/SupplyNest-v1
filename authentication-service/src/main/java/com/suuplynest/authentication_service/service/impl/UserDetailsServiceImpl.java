@@ -10,22 +10,22 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CustomUserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepo userRepo;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
         Users user = userRepo.findByUsername(username)
                 .orElseThrow(() ->
-                        new UsernameNotFoundException("User not found")
+                        new UsernameNotFoundException(
+                                "User not found with username: " + username
+                        )
                 );
-
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getUsername())
                 .password(user.getPassword())
-                .authorities(user.getRole())
+                .authorities(user.getRole()) // "ROLE_ADMIN", "ROLE_USER"
                 .build();
     }
 }

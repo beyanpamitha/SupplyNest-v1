@@ -4,5 +4,5 @@ import com.suuplynest.authentication_service.dto.LoginRequestDto;
 import com.suuplynest.authentication_service.dto.LoginResponseDto;
 
 public interface JwtService {
-    LoginResponseDto createJwtToken(LoginRequestDto loginRequestDto);
+    String createJwtToken(String username);
 }
