@@ -5,6 +5,7 @@ import com.suuplynest.authentication_service.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,17 +22,20 @@ public class UserController {
     }
 
     @GetMapping("admin-acc")
+    @PreAuthorize("hasRole('ADMIN')")
     public String getAdminDashboard(){
         return "This is Admin dashboard";
     }
 
     @GetMapping("customer-acc")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public String getCustomerDashboard(){
-        return "This is Admin dashboard";
+        return "This is Customer dashboard";
     }
 
     @GetMapping("vendor-acc")
+    @PreAuthorize("hasRole('VENDOR')")
     public String getVendorDashboard(){
-        return "This is Admin dashboard";
+        return "This is Vendor dashboard";
     }
 }
