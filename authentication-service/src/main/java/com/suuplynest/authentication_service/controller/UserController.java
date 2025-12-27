@@ -5,10 +5,7 @@ import com.suuplynest.authentication_service.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/auth")
@@ -21,5 +18,20 @@ public class UserController {
     public ResponseEntity<UsersDto> saveUser(@RequestBody UsersDto usersDto){
         UsersDto savedUser = authService.saveUser(usersDto);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+    }
+
+    @GetMapping("admin-acc")
+    public String getAdminDashboard(){
+        return "This is Admin dashboard";
+    }
+
+    @GetMapping("customer-acc")
+    public String getCustomerDashboard(){
+        return "This is Admin dashboard";
+    }
+
+    @GetMapping("vendor-acc")
+    public String getVendorDashboard(){
+        return "This is Admin dashboard";
     }
 }
