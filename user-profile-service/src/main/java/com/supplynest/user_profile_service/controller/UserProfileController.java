@@ -16,12 +16,6 @@ public class UserProfileController {
 
     private final UserProfileService userProfileService; //Constructor injection
 
-    @PostMapping("save-user")
-    public ResponseEntity<UserProfileDto> saveUser(@RequestBody UserProfileDto userProfileDto){
-        UserProfileDto savedUser = userProfileService.saveUser(userProfileDto);
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
-    }
-
     @GetMapping("get-user-by-id")
     public ResponseEntity<UserProfileDto> getUserById(@RequestParam Long id){
         UserProfileDto receivedUser = userProfileService.getUserById(id);

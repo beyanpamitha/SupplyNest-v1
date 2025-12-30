@@ -20,17 +20,6 @@ public class UserProfileServiceImpl implements UserProfileService {
     private final ModelMapper modelMapper;
 
     @Override
-    public UserProfileDto saveUser(UserProfileDto userProfileDto) {
-        User user = modelMapper.map(userProfileDto,User.class);  //Converting user's data(Dto type) into Entity type, for save in the db.
-
-        User saveUser = userProfileRepo.save(user);
-
-        UserProfileDto savedUser = modelMapper.map(saveUser,UserProfileDto.class);  //Converting Entity type data into Dto type, for return to frontend.
-        return savedUser;
-
-    }
-
-    @Override
     public UserProfileDto getUserById(Long id) {
         User user = userProfileRepo.findById(id)   //Checking the db to find relevant user and throwing not found error if a user does not exist.
                 .orElseThrow(()->

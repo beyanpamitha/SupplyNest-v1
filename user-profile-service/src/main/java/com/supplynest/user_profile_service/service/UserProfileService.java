@@ -5,7 +5,6 @@ import com.supplynest.user_profile_service.dto.UserProfileDto;
 import com.supplynest.user_profile_service.dto.UserUpdateDto;
 
 public interface UserProfileService {
-    UserProfileDto saveUser(UserProfileDto userProfileDto);
 
     UserProfileDto getUserById(Long id);
 
