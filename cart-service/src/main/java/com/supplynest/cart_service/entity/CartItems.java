@@ -18,14 +18,20 @@ public class CartItems {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long cartId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cart_id",nullable = false)
+    private Carts cart;
+
     private Long productId;
+
     private Double quantity;
     private Double unitPrice;
-    @Column(updatable = false)
+
     @CreationTimestamp
-    private LocalDateTime createdAt;
     @Column(updatable = false)
+    private LocalDateTime createdAt;
+
     @CreationTimestamp
     private LocalDateTime updatedAt;
 }
