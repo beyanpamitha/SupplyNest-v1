@@ -18,8 +18,8 @@ public class CartController {
     private final CartService cartService;
 
     @PostMapping("/new-cart")
-    public ResponseEntity<CartsDto> openNewCart(@RequestBody CartsDto cartsDto){
-        CartsDto newCart = cartService.openNewCart(cartsDto);
+    public ResponseEntity<CartsDto> openNewCart(@RequestHeader("X-USER-ID") Long customerId){
+        CartsDto newCart = cartService.openNewCart(customerId);
         return new ResponseEntity<>(newCart, HttpStatus.CREATED);
     }
 

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class Carts {
     private Long id;
 
     @Column(nullable = false)
-    private long customerId;
+    private Long customerId;
 
     @OneToMany(
             mappedBy = "cart",           //Cart is NOT the owner of the relationship
@@ -35,7 +36,6 @@ public class Carts {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @Column(updatable = false)
-    @CreationTimestamp
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 }

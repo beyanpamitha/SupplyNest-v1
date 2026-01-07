@@ -28,6 +28,6 @@ public class JwtServiceImpl implements JwtService {
                 .password(user.getPassword())
                 .authorities(user.getRole())
                 .build();
-        return jwtUtil.generateNewToken(userDetails);
+        return jwtUtil.generateNewToken(userDetails,user.getUserId());
     }
 }

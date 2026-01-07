@@ -49,9 +49,12 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartsDto openNewCart(CartsDto cartsDto) {
-        Carts newCart = modelMapper.map(cartsDto, Carts.class);
-        Carts savedCart = cartRepo.save(newCart);
+    public CartsDto openNewCart(Long customerId) {
+        Carts cart = new Carts();
+        cart.setCustomerId(customerId);
+
+        Carts savedCart = cartRepo.save(cart);
+
         return modelMapper.map(savedCart, CartsDto.class);
     }
 

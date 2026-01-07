@@ -53,22 +53,30 @@ public class JwtUtil {
     }
 
     //Generate new token
-    public String generateNewToken(UserDetails userDetails){
+    public String generateNewToken(UserDetails userDetails, Long userId){
 
         //Creating a key-value pair
         Map<String, Object> claims = new HashMap<>();
 
         //Add role to claims
+        claims.put("userId", userId);
         claims.put("role", userDetails.getAuthorities().stream()
                 .map(auth -> auth.getAuthority())
                 .toList()
         );
 
+        //Embed the authenticated user’s ID as a custom JWT claim so downstream microservices can securely identify the user without trusting client input.
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername()) //Getting username from frontend(user details)
                 .setIssuedAt(new Date(System.currentTimeMillis())) //Setting the issued time to current system time
-                .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY * 1000)) //Setting the expiration time to token validity time * 1000 seconds.
+                .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY)) //Setting the expiration time to token validity time * 1000 seconds.
                 .signWith(KEY, SignatureAlgorithm.HS512)
-                .compact();}
+                .compact();
+    }
+
+    public Long getUserIdFromToken(String token) {
+        return getClaimFromToken(token, claims -> claims.get("userId", Long.class));
+    }
 }
