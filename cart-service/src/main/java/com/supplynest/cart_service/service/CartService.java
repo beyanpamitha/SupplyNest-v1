@@ -10,5 +10,5 @@ public interface CartService {
 
     CartsDto openNewCart(Long customerId);
 
-    List<CartItemsDto> addItemToCart(Long productId, Double quantity);
+    void addItemToCart(Long customerId, Long productId, Double quantity);
 }

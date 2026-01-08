@@ -1,5 +1,6 @@
 package com.supplynest.cart_service.controller;
 
+import com.supplynest.cart_service.dto.AddItemRequestDto;
 import com.supplynest.cart_service.dto.CartItemsDto;
 import com.supplynest.cart_service.dto.CartsDto;
 import com.supplynest.cart_service.service.CartService;
@@ -30,14 +31,13 @@ public class CartController {
         );
     }
 
-    @PostMapping("/{productId}")
-    public ResponseEntity<List<CartItemsDto>> addItemToCart(
-            @PathVariable Long productId,
-            @RequestBody Double quantity
+    @PostMapping("add-item")
+    public ResponseEntity<Void> addItemToCart(
+            @RequestHeader("X-CUSTOMER-ID") Long customerId,
+            @RequestBody AddItemRequestDto addItemRequestDto
     ){
-        return ResponseEntity.ok(
-                cartService.addItemToCart(productId,quantity)
-        );
-        //Service method is completed. Complete it
+        cartService.addItemToCart(customerId, addItemRequestDto.getProductId(), addItemRequestDto.getQuantity());
+        return ResponseEntity.ok().build();
     }
+
 }
