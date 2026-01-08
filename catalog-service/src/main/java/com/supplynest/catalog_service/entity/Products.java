@@ -27,10 +27,10 @@ public class Products {
 
     private String productName;
     private String description;
-    private Double price;
+    private Double unitPrice;
     private Double availableStock;
     private Integer minStockThreshold;
-    private String activeStatus; //active, out of stock, discontinued
+    private Boolean activeStatus;
 
     @Column(updatable = false)
     @CreationTimestamp

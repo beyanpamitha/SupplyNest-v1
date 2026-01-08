@@ -32,6 +32,7 @@ public class CartItems {
     @Column(nullable = false)
     private Double quantity;
 
+    //Should not get unit price from the front end. because anyone can open devtools and change the unit price.
     @Column(nullable = false)
     private Double unitPrice;
 
