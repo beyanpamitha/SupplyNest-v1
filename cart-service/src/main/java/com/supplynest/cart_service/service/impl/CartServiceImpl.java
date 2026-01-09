@@ -107,4 +107,65 @@ public class CartServiceImpl implements CartService {
         cartRepo.save(cart);
     }
 
+    @Override
+    public void deleteItemFromCart(Long customerId, Long productId) {
+        Carts cart = cartRepo.findByCustomerId(customerId)
+                .orElseThrow(()->
+                        new ResponseStatusException(
+                                NOT_FOUND,
+                                "Cart not found for customer"
+                        )
+                );
+
+        CartItems item = cart.getItems().stream()
+                .filter(i -> i.getProductId().equals(productId))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Item not found in cart"
+                ));
+
+        cart.getItems().remove(item);
+        cartRepo.save(cart);
+    }
+
+    @Override
+    public void updateItemsQuantity(Long customerId, Long productId, Double quantity) {
+
+        //Checking if quantity is 0
+        if (quantity < 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Quantity cannot be negative"
+            );
+        }
+
+        //Finding the cart b customerId
+        Carts cart = cartRepo.findByCustomerId(customerId)
+                .orElseThrow(()->
+                        new ResponseStatusException(
+                                NOT_FOUND,
+                                "Cart not found for customer"
+                        )
+                );
+
+        //Finding the item by productId
+        CartItems item = cart.getItems().stream()
+                .filter(i -> i.getProductId().equals(productId))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Item not found in cart"
+                ));
+
+        //Updating the quantity(Remove item if quantity = 0)
+        if (quantity == 0){
+            cart.getItems().remove(item);
+        }else {
+            item.setQuantity(quantity);
+        }
+
+        cartRepo.save(cart);
+    }
+
 }

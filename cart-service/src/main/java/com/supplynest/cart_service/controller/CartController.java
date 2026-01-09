@@ -24,8 +24,8 @@ public class CartController {
         return new ResponseEntity<>(newCart, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{customerId}")
-    public ResponseEntity<List<CartItemsDto>> getCartDetails(@PathVariable Long customerId){
+    @GetMapping("/get-cart-details")
+    public ResponseEntity<List<CartItemsDto>> getCartDetails(@RequestHeader("X-CUSTOMER-ID") Long customerId){
         return ResponseEntity.ok(
                 cartService.getCartDetails(customerId)
         );
@@ -37,6 +37,25 @@ public class CartController {
             @RequestBody AddItemRequestDto addItemRequestDto
     ){
         cartService.addItemToCart(customerId, addItemRequestDto.getProductId(), addItemRequestDto.getQuantity());
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/delete-item")
+    public ResponseEntity<Void> deleteItem(
+            @RequestHeader("X-CUSTOMER-ID") Long customerId,
+            @PathVariable Long productId
+    ){
+        cartService.deleteItemFromCart(customerId,productId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("update-quantity")
+    public ResponseEntity<Void> updateQuantity(
+            @RequestHeader("X-CUSTOMER-ID") Long customerId,
+            @PathVariable Long productId,
+            @RequestParam Double quantity
+    ){
+        cartService.updateItemsQuantity(customerId,productId,quantity);
         return ResponseEntity.ok().build();
     }
 
