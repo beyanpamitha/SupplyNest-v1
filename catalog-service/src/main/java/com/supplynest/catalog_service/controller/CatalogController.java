@@ -1,6 +1,8 @@
 package com.supplynest.catalog_service.controller;
 
 import com.supplynest.catalog_service.dto.ProductPriceDto;
+import com.supplynest.catalog_service.dto.ProductRequestDto;
+import com.supplynest.catalog_service.dto.ProductsDto;
 import com.supplynest.catalog_service.service.CatalogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,5 +20,11 @@ public class CatalogController {
     public ResponseEntity<ProductPriceDto> getItemUnitPrice(@PathVariable Long productId){
         ProductPriceDto receivedItemPrice = catalogService.getItemUnitPrice(productId);
         return new ResponseEntity<>(receivedItemPrice, HttpStatus.OK);
+    }
+
+    @PostMapping("/products/add-item")
+    public ResponseEntity<ProductsDto> addProducts(@RequestBody ProductRequestDto productRequestDto){
+        ProductsDto product = catalogService.addProduct(productRequestDto, productRequestDto.getVendorId());
+        return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
 }
