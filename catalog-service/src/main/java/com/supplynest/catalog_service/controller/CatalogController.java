@@ -27,4 +27,10 @@ public class CatalogController {
         ProductsDto product = catalogService.addProduct(productRequestDto, productRequestDto.getVendorId());
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/products/{productId}")
+    public ResponseEntity<ProductsDto> removeProducts(@PathVariable Long productId){
+        ProductsDto product = catalogService.removeProduct(productId);
+        return  new ResponseEntity<>(product, HttpStatus.OK);
+    }
 }

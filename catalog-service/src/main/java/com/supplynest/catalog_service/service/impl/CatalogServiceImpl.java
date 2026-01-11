@@ -87,4 +87,17 @@ public class CatalogServiceImpl implements CatalogService {
 
         return responseDto;
     }
+
+    @Override
+    public ProductsDto removeProduct(Long productId) {
+
+        Products product = productsRepo.findById(productId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Product not found with id " + productId
+                ));
+
+        productsRepo.delete(product);
+        return modelMapper.map(product, ProductsDto.class);
+    }
 }

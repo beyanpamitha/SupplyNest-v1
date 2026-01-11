@@ -8,4 +8,6 @@ public interface CatalogService {
     ProductPriceDto getItemUnitPrice(Long productId);
 
     ProductsDto addProduct(ProductRequestDto productRequestDto, Long vendorId);
+
+    ProductsDto removeProduct(Long productId);
 }
