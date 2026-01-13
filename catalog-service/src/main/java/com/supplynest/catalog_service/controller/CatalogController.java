@@ -33,4 +33,22 @@ public class CatalogController {
         ProductsDto product = catalogService.removeProduct(productId);
         return  new ResponseEntity<>(product, HttpStatus.OK);
     }
+
+    @PutMapping("/product/{productId}")
+    public ResponseEntity<ProductsDto> updateProduct(
+            @PathVariable Long productId,
+            @RequestBody ProductRequestDto productRequestDto
+    ){
+        ProductsDto product = catalogService.updateProduct(productId, productRequestDto);
+        return new ResponseEntity<>(product, HttpStatus.OK);
+    }
+
+    @PutMapping("/products/unit-price/{productId}")
+    public ResponseEntity<ProductsDto> updateUnitPrice(
+            @PathVariable Long productId,
+            @RequestParam Double unitPrice
+    ){
+        ProductsDto product = catalogService.updateUnitPrice(productId,unitPrice);
+        return new ResponseEntity<>(product, HttpStatus.OK);
+    }
 }

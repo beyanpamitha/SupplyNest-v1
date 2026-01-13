@@ -100,4 +100,46 @@ public class CatalogServiceImpl implements CatalogService {
         productsRepo.delete(product);
         return modelMapper.map(product, ProductsDto.class);
     }
+
+    @Override
+    public ProductsDto updateProduct(Long productId, ProductRequestDto productRequestDto) {
+
+        Products product = productsRepo.findById(productId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Product not found with id " + productId
+                ));
+
+        //Configure ModelMapper to skip null values
+        modelMapper.getConfiguration()
+                .setSkipNullEnabled(true);
+
+        //Mapping
+        modelMapper.map(productRequestDto, product); //Here, don't map productRequestDto -> Products.class. It will create a new product in the entity. Instead of, map dto -> product(previously fetched product from entity).
+
+        Products updatedProduct = productsRepo.save(product);
+        return modelMapper.map(updatedProduct, ProductsDto.class);
+    }
+
+    @Override
+    public ProductsDto updateUnitPrice(Long productId, Double unitPrice) {
+
+        Products product = productsRepo.findById(productId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Product not found with id " + productId
+                ));
+
+        if (unitPrice == null || unitPrice <= 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Unit price must be greater than zero"
+            );
+        }
+
+        product.setUnitPrice(unitPrice); //Didn't use modelmapper here, because there are only one field to update.
+        Products updatedProduct = productsRepo.save(product);
+
+        return modelMapper.map(updatedProduct, ProductsDto.class);
+    }
 }
