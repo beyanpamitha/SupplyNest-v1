@@ -142,4 +142,16 @@ public class CatalogServiceImpl implements CatalogService {
 
         return modelMapper.map(updatedProduct, ProductsDto.class);
     }
+
+    @Override
+    public ProductsDto getProductById(Long productId) {
+
+        Products product = productsRepo.findById(productId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Product not found with id " + productId
+                ));
+
+        return modelMapper.map(product, ProductsDto.class);
+    }
 }

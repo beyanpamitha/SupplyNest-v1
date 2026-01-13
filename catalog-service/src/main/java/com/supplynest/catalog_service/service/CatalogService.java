@@ -14,4 +14,6 @@ public interface CatalogService {
     ProductsDto updateProduct(Long productId, ProductRequestDto productRequestDto);
 
     ProductsDto updateUnitPrice(Long productId, Double unitPrice);
+
+    ProductsDto getProductById(Long productId);
 }

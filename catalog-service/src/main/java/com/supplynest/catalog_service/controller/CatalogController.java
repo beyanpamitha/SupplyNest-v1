@@ -22,6 +22,12 @@ public class CatalogController {
         return new ResponseEntity<>(receivedItemPrice, HttpStatus.OK);
     }
 
+    @GetMapping("/products/get-product/{productId}")
+    public ResponseEntity<ProductsDto> getProductById(@PathVariable Long productId){
+        ProductsDto product = catalogService.getProductById(productId);
+        return new ResponseEntity<>(product, HttpStatus.OK);
+    }
+
     @PostMapping("/products/add-item")
     public ResponseEntity<ProductsDto> addProducts(@RequestBody ProductRequestDto productRequestDto){
         ProductsDto product = catalogService.addProduct(productRequestDto, productRequestDto.getVendorId());
