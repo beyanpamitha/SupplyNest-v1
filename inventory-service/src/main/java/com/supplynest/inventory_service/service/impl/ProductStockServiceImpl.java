@@ -22,7 +22,7 @@ public class ProductStockServiceImpl implements ProductStockService {
     @Transactional
     public void reserveStock(ReserveStockRequestDto reserveStockRequestDto) {
 
-        ProductStock stock = productStockRepo.findById(reserveStockRequestDto.getProductId())
+        ProductStock stock = productStockRepo.findByProductId(reserveStockRequestDto.getProductId())
                 .orElseThrow(()->
                         new RuntimeException(
                                 "Stock not found for product " + reserveStockRequestDto.getProductId()
@@ -53,6 +53,44 @@ public class ProductStockServiceImpl implements ProductStockService {
 
         log.setProductId(reserveStockRequestDto.getProductId());
         log.setChangeType(ChangeType.RESERVE);
+        log.setQuantity(reserveStockRequestDto.getQuantity());
+        log.setOrderId(reserveStockRequestDto.getOrderId());
+
+        inventoryLogsRepo.save(log);
+    }
+
+    @Override
+    @Transactional
+    public void releaseStock(ReserveStockRequestDto reserveStockRequestDto) {
+        ProductStock stock = productStockRepo.findByProductId(reserveStockRequestDto.getProductId())
+                .orElseThrow(()->
+                        new RuntimeException(
+                                "Stock not found for product " + reserveStockRequestDto.getProductId()
+                        )
+                );
+
+        //Decreasing reserved quantity
+        if (stock.getReservedQuantity().compareTo(reserveStockRequestDto.getQuantity()) < 0){
+            throw new RuntimeException("Cannot release more than reserved stock for product");
+        }
+
+        //Decreasing reserved quantity
+        stock.setReservedQuantity(
+                stock.getReservedQuantity().subtract(reserveStockRequestDto.getQuantity())
+        );
+
+        //Increasing available quantity
+        stock.setAvailableQuantity(
+                stock.getAvailableQuantity().add(reserveStockRequestDto.getQuantity())
+        );
+
+        productStockRepo.save(stock);
+
+        //Audit logs
+        InventoryLogs log = new InventoryLogs();
+
+        log.setProductId(reserveStockRequestDto.getProductId());
+        log.setChangeType(ChangeType.RELEASE);
         log.setQuantity(reserveStockRequestDto.getQuantity());
         log.setOrderId(reserveStockRequestDto.getOrderId());
 

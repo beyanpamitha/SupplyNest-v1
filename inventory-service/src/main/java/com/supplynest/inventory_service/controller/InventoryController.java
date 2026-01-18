@@ -22,4 +22,10 @@ public class InventoryController {
         productStockService.reserveStock(reserveStockRequestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/release-stock")
+    public ResponseEntity<Void> releaseStock(@RequestBody ReserveStockRequestDto reserveStockRequestDto){
+        productStockService.releaseStock(reserveStockRequestDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

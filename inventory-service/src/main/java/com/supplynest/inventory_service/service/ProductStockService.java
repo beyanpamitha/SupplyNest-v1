@@ -4,4 +4,6 @@ import com.supplynest.inventory_service.dto.ReserveStockRequestDto;
 
 public interface ProductStockService {
     void reserveStock(ReserveStockRequestDto reserveStockRequestDto);
+
+    void releaseStock(ReserveStockRequestDto reserveStockRequestDto);
 }
