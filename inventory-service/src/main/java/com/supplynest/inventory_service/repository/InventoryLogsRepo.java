@@ -1,11 +1,11 @@
-package com.supplynest.vendor_service.repository;
+package com.supplynest.inventory_service.repository;
 
-import com.supplynest.vendor_service.entity.VendorProfile;
+import com.supplynest.inventory_service.entity.InventoryLogs;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @EnableJpaRepositories
-public interface VendorRepo extends JpaRepository<VendorProfile,Long> {
+public interface InventoryLogsRepo extends JpaRepository<InventoryLogs, Long> {
 }
