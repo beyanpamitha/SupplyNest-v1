@@ -1,5 +1,6 @@
 package com.supplynest.inventory_service.controller;
 
+import com.supplynest.inventory_service.dto.ProductResponseDto;
 import com.supplynest.inventory_service.dto.ReserveStockRequestDto;
 import com.supplynest.inventory_service.dto.UpdateStockRequestDto;
 import com.supplynest.inventory_service.service.ProductStockService;
@@ -37,5 +38,11 @@ public class InventoryController {
     public ResponseEntity<UpdateStockRequestDto> updateStock(@RequestBody UpdateStockRequestDto updateStockRequestDto){
         UpdateStockRequestDto updatedStock = productStockService.updateStock(updateStockRequestDto);
         return new ResponseEntity<>(updatedStock, HttpStatus.OK);
+    }
+
+    @GetMapping("/get-stock/{productId}")
+    public ResponseEntity<ProductResponseDto> getStockDetails(@PathVariable Long productId){
+        ProductResponseDto product = productStockService.getStockDetails(productId);
+        return new ResponseEntity<>(product,HttpStatus.OK);
     }
 }

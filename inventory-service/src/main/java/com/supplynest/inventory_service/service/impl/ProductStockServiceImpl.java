@@ -1,5 +1,6 @@
 package com.supplynest.inventory_service.service.impl;
 
+import com.supplynest.inventory_service.dto.ProductResponseDto;
 import com.supplynest.inventory_service.dto.ReserveStockRequestDto;
 import com.supplynest.inventory_service.dto.UpdateStockRequestDto;
 import com.supplynest.inventory_service.entity.InventoryLogs;
@@ -148,7 +149,7 @@ public class ProductStockServiceImpl implements ProductStockService {
 
         ProductStock stock = productStockRepo.findByProductId(updateStockRequestDto.getProductId())
                 .orElse(null); //No need to throw exceptions because if a product was not found under relevant id, we create new product details in the entity.
-        
+
         if (stock == null){
             //Create new stock record
             stock = new ProductStock();
@@ -175,5 +176,19 @@ public class ProductStockServiceImpl implements ProductStockService {
         inventoryLogsRepo.save(log);
 
         return modelMapper.map(updatedProduct, UpdateStockRequestDto.class);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ProductResponseDto getStockDetails(Long productId) {
+
+        ProductStock stock = productStockRepo.findByProductId(productId)
+                .orElseThrow(()->
+                        new RuntimeException(
+                                "Stock not found for product " + productId
+                        )
+                );
+
+        return modelMapper.map(stock,ProductResponseDto.class);  //Model mapper ignores missing fields.
     }
 }

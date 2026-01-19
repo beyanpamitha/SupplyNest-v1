@@ -1,5 +1,6 @@
 package com.supplynest.inventory_service.service;
 
+import com.supplynest.inventory_service.dto.ProductResponseDto;
 import com.supplynest.inventory_service.dto.ReserveStockRequestDto;
 import com.supplynest.inventory_service.dto.UpdateStockRequestDto;
 
@@ -11,4 +12,6 @@ public interface ProductStockService {
     void confirmStock(ReserveStockRequestDto reserveStockRequestDto);
 
     UpdateStockRequestDto updateStock(UpdateStockRequestDto updateStockRequestDto);
+
+    ProductResponseDto getStockDetails(Long productId);
 }
