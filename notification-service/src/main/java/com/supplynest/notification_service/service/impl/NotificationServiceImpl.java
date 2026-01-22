@@ -72,11 +72,44 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void handlePaymentNotification(PaymentNotificationRequestDto paymentNotificationRequestDto) {
 
+        Notifications notifications = new Notifications();
+        notifications.setUserId(paymentNotificationRequestDto.getUserId());
+        notifications.setRecipientType(RecipientType.CUSTOMER);
+        notifications.setChannel(Channel.IN_APP);
+        notifications.setStatus(Status.SENT);
+
+        if (paymentNotificationRequestDto.isPaymentSuccess()){
+            notifications.setTitle("Payment successful");
+            notifications.setMessage(
+                    "Your payment for order #" + paymentNotificationRequestDto.getOrderId() + " was successful"
+            );
+        }else {
+            notifications.setTitle("Payment failed");
+            notifications.setMessage(
+                    "Your payment for order #" + paymentNotificationRequestDto.getOrderId()+" has failed. Please try again."
+            );
+        }
+
+        notificationsRepo.save(notifications);
     }
 
     @Override
     public void handleInventoryNotification(InventoryNotificationRequestDto inventoryNotificationRequestDto) {
 
+        Notifications notifications = new Notifications();
+        notifications.setUserId(inventoryNotificationRequestDto.getVendorId());
+        notifications.setRecipientType(RecipientType.VENDOR);
+        notifications.setChannel(Channel.IN_APP);
+        notifications.setStatus(Status.SENT);
+
+        notifications.setTitle("Low stock alert");
+        notifications.setMessage(
+                "Product #"+ inventoryNotificationRequestDto.getProductId() +
+                        " is running low. Available stock: " +
+                        inventoryNotificationRequestDto.getAvailableStock()
+        );
+
+        notificationsRepo.save(notifications);
     }
 
     @Override
