@@ -23,7 +23,7 @@ public class Orders {
 
     private Long customerId;
     private Long orderNumber;
-    private String status; //PLACED, CONFIRMED, SHIPPED, DELIVERED, CANCELLED
+    private String status; //CREATED, CONFIRMED, SHIPPED, DELIVERED, CANCELLED
     private String paymentType; //(COD, ONLINE)
     private String paymentStatus; //(PAID, PENDING, FAILED)
     private Double totalAmount;
