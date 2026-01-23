@@ -1,11 +1,15 @@
 package com.supplynest.order_service.entity;
 
+import com.supplynest.order_service.entity.enums.OrderStatus;
+import com.supplynest.order_service.entity.enums.PaymentStatus;
+import com.supplynest.order_service.entity.enums.PaymentType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +26,15 @@ public class Orders {
     private Long orderId;
 
     private Long customerId;
-    private Long orderNumber;
-    private String status; //CREATED, CONFIRMED, SHIPPED, DELIVERED, CANCELLED
-    private String paymentType; //(COD, ONLINE)
-    private String paymentStatus; //(PAID, PENDING, FAILED)
-    private Double totalAmount;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status; //CREATED, PAID, CANCELLED
+    @Enumerated(EnumType.STRING)
+    private PaymentType paymentType; //(COD, ONLINE)
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus; //(PAID, PENDING, FAILED)
+
+    private BigDecimal totalAmount;
 
     @OneToMany(
             mappedBy = "order",

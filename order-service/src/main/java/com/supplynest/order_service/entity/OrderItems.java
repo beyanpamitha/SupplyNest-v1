@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -21,13 +22,14 @@ public class OrderItems {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
-    private Orders orders;
+    private Orders order;
 
     private Long productId;
     private Long vendorId;
-    private Integer quantity;
-    private Double unitPrice;
-    private Double subTotal;
+    private BigDecimal quantity;
+    @Column(precision = 19, scale = 4)
+    private BigDecimal unitPrice;
+    private BigDecimal subTotal;
 
     @Column(updatable = false)
     @CreationTimestamp

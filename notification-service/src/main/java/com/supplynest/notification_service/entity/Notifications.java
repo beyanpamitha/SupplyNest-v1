@@ -26,15 +26,15 @@ public class Notifications {
 
     private Long userId;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private RecipientType recipientType;
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Channel channel;
 
     private String title;
     private String message;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @CreationTimestamp
