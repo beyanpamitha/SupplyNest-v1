@@ -114,11 +114,19 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public List<Notifications> getNotificationByUser(Long userId) {
-        return List.of();
+        return notificationsRepo.findByUserIdOrderByCreatedAtDesc(userId);
     }
 
     @Override
     public void markAsRead(Long id) {
 
+        Notifications notifications = notificationsRepo.findById(id)
+                .orElseThrow(()->
+                        new RuntimeException(
+                                "Notification not found with id " + id
+                        )
+                );
+        notifications.setStatus(Status.READ);
+        notificationsRepo.save(notifications);
     }
 }
